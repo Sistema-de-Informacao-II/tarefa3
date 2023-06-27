@@ -1,0 +1,605 @@
+[
+    {
+        "id": "de968aa97cb56458",
+        "type": "tab",
+        "label": "tarefa3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "1e789f50a11f2fa2",
+        "type": "inject",
+        "z": "de968aa97cb56458",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "300",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "SELECT tempCelsius, umidade FROM dadosTU WHERE idSensor = 66 ORDER BY dataHora DESC LIMIT 1",
+        "payload": "",
+        "payloadType": "date",
+        "x": 190,
+        "y": 140,
+        "wires": [
+            [
+                "f9d413e02d3adf87"
+            ]
+        ]
+    },
+    {
+        "id": "d095ba9b6059ca20",
+        "type": "function",
+        "z": "de968aa97cb56458",
+        "name": "getTempCelsius",
+        "func": "msg.payload = msg.payload[0].tempCelsius;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 140,
+        "wires": [
+            [
+                "a44587272218fb5f",
+                "62b1756f61f023e6"
+            ]
+        ]
+    },
+    {
+        "id": "dda7203f6b5d52cd",
+        "type": "debug",
+        "z": "de968aa97cb56458",
+        "name": "debug BD",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "f9d413e02d3adf87",
+        "type": "mysql",
+        "z": "de968aa97cb56458",
+        "mydb": "cb307fb1c929b6f6",
+        "name": "",
+        "x": 430,
+        "y": 140,
+        "wires": [
+            [
+                "dda7203f6b5d52cd",
+                "d095ba9b6059ca20",
+                "35be2f83e241d328",
+                "fd4e931717f2a1e2"
+            ]
+        ]
+    },
+    {
+        "id": "a44587272218fb5f",
+        "type": "ui_gauge",
+        "z": "de968aa97cb56458",
+        "name": "Gauge Temperatura BD",
+        "group": "fe865ddb6ac2e075",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Em ºC",
+        "label": "ºC",
+        "format": "{{msg.payload}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1030,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "35be2f83e241d328",
+        "type": "function",
+        "z": "de968aa97cb56458",
+        "name": "getUmidade",
+        "func": "msg.payload = msg.payload[0].umidade;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 220,
+        "wires": [
+            [
+                "2937e82fe6a71d77",
+                "2c3aa8596d71adc1"
+            ]
+        ]
+    },
+    {
+        "id": "62b1756f61f023e6",
+        "type": "ui_chart",
+        "z": "de968aa97cb56458",
+        "name": "Chart Temperatura BD",
+        "group": "fe865ddb6ac2e075",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "Em ºC",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1020,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2937e82fe6a71d77",
+        "type": "ui_gauge",
+        "z": "de968aa97cb56458",
+        "name": "Gauge Umidade BD",
+        "group": "e5b91d4039db2b34",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Em %",
+        "label": "%",
+        "format": "{{msg.payload}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1020,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "2c3aa8596d71adc1",
+        "type": "ui_chart",
+        "z": "de968aa97cb56458",
+        "name": "Chart Umidade BD",
+        "group": "e5b91d4039db2b34",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "Em %",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1010,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fd4e931717f2a1e2",
+        "type": "function",
+        "z": "de968aa97cb56458",
+        "name": "senderUmidadeAndTemp",
+        "func": "msg.payload = {\n    chatId: 5508563884,\n    type: \"message\",\n    content: 'Temperatura: ' + msg.payload[0].tempCelsius.toString() + ' ºC\\n' + 'Umidade: ' + msg.payload[0].umidade.toString() + '%'\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 320,
+        "wires": [
+            [
+                "ac0f016a34ec67c9"
+            ]
+        ]
+    },
+    {
+        "id": "e868f03d3a85cd96",
+        "type": "telegram receiver",
+        "z": "de968aa97cb56458",
+        "name": "",
+        "bot": "4d52df0e5d0458b1",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 810,
+        "y": 520,
+        "wires": [
+            [
+                "1a040ee06ddad24a"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "ac0f016a34ec67c9",
+        "type": "telegram sender",
+        "z": "de968aa97cb56458",
+        "name": "",
+        "bot": "4d52df0e5d0458b1",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 810,
+        "y": 420,
+        "wires": [
+            [
+                "dd3d5c99b8d091c3"
+            ]
+        ]
+    },
+    {
+        "id": "1a040ee06ddad24a",
+        "type": "debug",
+        "z": "de968aa97cb56458",
+        "name": "debug receiver",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "dd3d5c99b8d091c3",
+        "type": "debug",
+        "z": "de968aa97cb56458",
+        "name": "debug sender",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "176d3d7fdf508aba",
+        "type": "telegram command",
+        "z": "de968aa97cb56458",
+        "name": "",
+        "command": "/dados",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "4d52df0e5d0458b1",
+        "strict": false,
+        "hasresponse": true,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 2,
+        "x": 190,
+        "y": 640,
+        "wires": [
+            [
+                "c5c1abba211f816f"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "c5c1abba211f816f",
+        "type": "function",
+        "z": "de968aa97cb56458",
+        "name": "showOptions",
+        "func": "var opts = {\n    reply_markup: JSON.stringify({\n        \"inline_keyboard\": [[\n            {\n                \"text\": \"Temperatura\",\n                \"callback_data\": \"1\"\n            },\n            {\n                \"text\": \"Humidade\",\n                \"callback_data\": \"2\"\n            }]\n        ]\n    })\n};\n\nmsg.error = false;\n\nmsg.payload = {\n    chatId: 5508563884,\n    type: 'message',\n    content: 'Selecione uma opção:',\n    options: opts,\n\n}\nreturn [msg];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 640,
+        "wires": [
+            [
+                "e6e84fcc5e52a37b"
+            ]
+        ]
+    },
+    {
+        "id": "e6e84fcc5e52a37b",
+        "type": "telegram sender",
+        "z": "de968aa97cb56458",
+        "name": "",
+        "bot": "4d52df0e5d0458b1",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 610,
+        "y": 640,
+        "wires": [
+            [
+                "a7e22c5cf78fab13"
+            ]
+        ]
+    },
+    {
+        "id": "79c9af203a5a4090",
+        "type": "telegram event",
+        "z": "de968aa97cb56458",
+        "name": "",
+        "bot": "4d52df0e5d0458b1",
+        "event": "callback_query",
+        "autoanswer": false,
+        "x": 180,
+        "y": 780,
+        "wires": [
+            [
+                "752f130b9026af18"
+            ]
+        ]
+    },
+    {
+        "id": "752f130b9026af18",
+        "type": "function",
+        "z": "de968aa97cb56458",
+        "name": "getCallback",
+        "func": "msg.callback = msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 780,
+        "wires": [
+            [
+                "b3d51ab30f281965"
+            ]
+        ]
+    },
+    {
+        "id": "1bf926a53d744143",
+        "type": "function",
+        "z": "de968aa97cb56458",
+        "name": "checkSelection",
+        "func": "if (msg.callback.content == 1) {\n    msg.payload.content = 'Temperatura: ' + msg.payload[0].tempCelsius.toString() + \" °C\";\n}\nif (msg.callback.content == 2) {\n    msg.payload.content = 'Umidade: ' + msg.payload[0].umidade.toString() + \"%\";\n}\n\nmsg.payload.type = 'message';\nmsg.payload.chatId = '5508563884';\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1120,
+        "y": 780,
+        "wires": [
+            [
+                "f0c9859cbc476cc8"
+            ]
+        ]
+    },
+    {
+        "id": "f0c9859cbc476cc8",
+        "type": "telegram sender",
+        "z": "de968aa97cb56458",
+        "name": "",
+        "bot": "4d52df0e5d0458b1",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1370,
+        "y": 660,
+        "wires": [
+            [
+                "f323d03c2e41384b"
+            ]
+        ]
+    },
+    {
+        "id": "f323d03c2e41384b",
+        "type": "debug",
+        "z": "de968aa97cb56458",
+        "name": "debug sender resultado chamada",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1660,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "b3d51ab30f281965",
+        "type": "function",
+        "z": "de968aa97cb56458",
+        "name": "getTopic",
+        "func": "msg.topic = 'SELECT tempCelsius, umidade FROM dadosTU WHERE idSensor = 66 ORDER BY dataHora DESC LIMIT 1';\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 780,
+        "wires": [
+            [
+                "aac1b714fb9ac3e6"
+            ]
+        ]
+    },
+    {
+        "id": "aac1b714fb9ac3e6",
+        "type": "mysql",
+        "z": "de968aa97cb56458",
+        "mydb": "cb307fb1c929b6f6",
+        "name": "",
+        "x": 830,
+        "y": 780,
+        "wires": [
+            [
+                "1bf926a53d744143"
+            ]
+        ]
+    },
+    {
+        "id": "a7e22c5cf78fab13",
+        "type": "debug",
+        "z": "de968aa97cb56458",
+        "name": "debug sender chamada",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "cb307fb1c929b6f6",
+        "type": "MySQLdatabase",
+        "name": "Conexão com BD",
+        "host": "10.16.1.20",
+        "port": "3306",
+        "db": "topicos",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "fe865ddb6ac2e075",
+        "type": "ui_group",
+        "name": "Temperatura",
+        "tab": "5632eaffcf9ba65b",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "e5b91d4039db2b34",
+        "type": "ui_group",
+        "name": "Umidade",
+        "tab": "5632eaffcf9ba65b",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4d52df0e5d0458b1",
+        "type": "telegram bot",
+        "botname": "Jhon Bot",
+        "usernames": "",
+        "chatids": "5508563884",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "5632eaffcf9ba65b",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
